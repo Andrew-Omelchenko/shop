@@ -1,0 +1,18 @@
+<h3>Product List</h3>
+<clr-datagrid>
+  <clr-dg-column [clrDgField]="'name'">{{ 'Name' }}</clr-dg-column>
+  <clr-dg-column [clrDgField]="'price'">{{ 'Price' }}</clr-dg-column>
+  <clr-dg-column [clrDgField]="'category'">{{ 'Category' }}</clr-dg-column>
+  <clr-dg-column [clrDgField]="'isAvailable'">{{ 'Available' }}</clr-dg-column>
+  <clr-dg-row
+    *clrDgItems="let product of productList; let i = index; trackBy: trackById"
+    class="product-row"
+    [clrDgItem]="product"
+    (click)="onSelectProduct(product.id)"
+  >
+    <clr-dg-cell>{{ product.name }}</clr-dg-cell>
+    <clr-dg-cell>{{ product.price | currency }}</clr-dg-cell>
+    <clr-dg-cell>{{ product.category }}</clr-dg-cell>
+    <clr-dg-cell>{{ product.isAvailable ? 'Yes' : 'No' }}</clr-dg-cell>
+  </clr-dg-row>
+</clr-datagrid>
