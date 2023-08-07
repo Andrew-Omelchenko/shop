@@ -8,7 +8,7 @@
     <clr-dg-column [clrDgField]="'isAvailable'">{{ 'Available' }}</clr-dg-column>
     <clr-dg-row
       *clrDgItems="let item of itemsList; let i = index; trackBy: trackById"
-      class="product-row"
+      class="cart-row"
       [clrDgItem]="item"
     >
       <clr-dg-cell>{{ item.name }}</clr-dg-cell>
