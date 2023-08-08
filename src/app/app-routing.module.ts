@@ -17,6 +17,7 @@ const routes: Routes = [
       { path: ':productId', component: ProductComponent },
     ],
   },
+  // в чем смысл этого роута? ведь можно написать один объект.
   {
     path: '404',
     component: PageNotFoundComponent,

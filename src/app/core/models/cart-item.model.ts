@@ -1,11 +1,5 @@
-import { Category } from './common.types';
+import { ProductModel } from './product.model';
 
-export interface CartItemModel {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  category: Category;
-  isAvailable: boolean;
+export interface CartItemModel extends ProductModel {
   qty: number;
 }

@@ -9,21 +9,25 @@ import { Router } from '@angular/router';
   styleUrls: ['./product-list.component.scss'],
 })
 export class ProductListComponent implements OnInit {
-  public productList!: ProductModel[];
+  productList!: ProductModel[];
+
   constructor(
     private readonly router: Router,
     private productsLoader: ProductsLoaderService,
   ) {}
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.productList = this.productsLoader.getProducts();
   }
 
-  public trackById(index: number, product: ProductModel): number {
+  trackById(index: number, product: ProductModel): number {
     return product.id;
   }
 
-  public async onSelectProduct(productId: number): Promise<void> {
+  // this.router.navigate(['products', productId]); возвращает Promise
+  // но вы этот промис никак не используете.
+  // В таком случае, возможно, не надо создавать асинхронный метод?
+  async onSelectProduct(productId: number): Promise<void> {
     await this.router.navigate(['products', productId]);
   }
 }

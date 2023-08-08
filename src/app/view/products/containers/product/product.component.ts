@@ -11,6 +11,7 @@ import { CartService } from '../../../../core/services/cart.service';
   styleUrls: ['./product.component.scss'],
 })
 export class ProductComponent implements OnInit, OnDestroy {
+  // модификатор public не нужен
   public product: ProductModel | undefined;
 
   private onDestroy$: Subject<void> = new Subject<void>();
