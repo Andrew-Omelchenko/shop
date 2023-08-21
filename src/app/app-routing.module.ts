@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ProductListComponent } from './view/products/containers/product-list/product-list.component';
-import { ProductComponent } from './view/products/containers/product/product.component';
 import { PageNotFoundComponent } from './view/page-not-found/containers/page-not-found/page-not-found.component';
+import { ProductListV2Component } from './view/products-v2/containers/product-list-v2/product-list-v2.component';
 
 const routes: Routes = [
   {
@@ -13,11 +12,11 @@ const routes: Routes = [
   {
     path: 'products',
     children: [
-      { path: '', component: ProductListComponent },
-      { path: ':productId', component: ProductComponent },
+      { path: '', component: ProductListV2Component },
+      // { path: '', component: ProductListComponent },
+      // { path: ':productId', component: ProductComponent },
     ],
   },
-  // в чем смысл этого роута? ведь можно написать один объект.
   {
     path: '**',
     component: PageNotFoundComponent,
