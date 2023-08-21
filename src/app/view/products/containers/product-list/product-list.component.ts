@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class ProductListComponent implements OnInit {
   productList!: ProductModel[];
+
   constructor(
     private readonly router: Router,
     private productsLoader: ProductsLoaderService,
