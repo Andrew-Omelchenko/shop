@@ -10,11 +10,11 @@ export class CartService {
   private items$: BehaviorSubject<Map<number, CartItemModel>> = new BehaviorSubject<Map<number, CartItemModel>>(
     new Map<number, CartItemModel>([]),
   );
-  public getItemsObs(): Observable<CartItemModel[]> {
+  getItemsObs(): Observable<CartItemModel[]> {
     return this.items$.asObservable().pipe(map((itemsMap) => Array.from(itemsMap.values())));
   }
 
-  public addItem(product: ProductModel): void {
+  addItem(product: ProductModel): void {
     const itemsMap = this.items$.getValue();
     if (product?.id >= 0 && !itemsMap.has(product.id)) {
       this.items$.next(itemsMap.set(product.id, { ...product, qty: 0 }));

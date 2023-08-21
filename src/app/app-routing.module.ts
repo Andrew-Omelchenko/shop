@@ -19,13 +19,8 @@ const routes: Routes = [
   },
   // в чем смысл этого роута? ведь можно написать один объект.
   {
-    path: '404',
-    component: PageNotFoundComponent,
-  },
-  {
     path: '**',
-    pathMatch: 'full',
-    redirectTo: '404',
+    component: PageNotFoundComponent,
   },
 ];
 

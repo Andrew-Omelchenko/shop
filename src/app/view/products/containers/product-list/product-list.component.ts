@@ -24,10 +24,7 @@ export class ProductListComponent implements OnInit {
     return product.id;
   }
 
-  // this.router.navigate(['products', productId]); возвращает Promise
-  // но вы этот промис никак не используете.
-  // В таком случае, возможно, не надо создавать асинхронный метод?
-  async onSelectProduct(productId: number): Promise<void> {
-    await this.router.navigate(['products', productId]);
+  onSelectProduct(productId: number): void {
+    this.router.navigate(['products', productId]);
   }
 }
