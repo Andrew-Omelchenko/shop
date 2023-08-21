@@ -1,42 +1,54 @@
-<h3>Cart</h3>
-<ng-container *ngIf="itemsList$ | async as itemsList">
-  <ng-container *ngIf="itemsList.length; else emptyCartTpl">
-    <clr-datagrid>
-      <clr-dg-column [clrDgField]="'name'">{{ 'Name' }}</clr-dg-column>
-      <clr-dg-column [clrDgField]="'price'">{{ 'Price' }}</clr-dg-column>
-      <clr-dg-column [clrDgField]="'qty'">{{ 'Qty' }}</clr-dg-column>
-      <clr-dg-column [clrDgField]="'category'">{{ 'Category' }}</clr-dg-column>
-      <clr-dg-column [clrDgField]="'isAvailable'">{{ 'Available' }}</clr-dg-column>
-      <clr-dg-row
-        *clrDgItems="let item of itemsList; let i = index; trackBy: trackById"
-        class="cart-row"
-        [clrDgItem]="item"
-      >
-        <clr-dg-cell>{{ item.name }}</clr-dg-cell>
-        <clr-dg-cell>{{ item.price | currency }}</clr-dg-cell>
-        <clr-dg-cell>{{ item?.qty || 0 }}</clr-dg-cell>
-        <clr-dg-cell>{{ item.category }}</clr-dg-cell>
-        <clr-dg-cell>{{ item.isAvailable ? 'Yes' : 'No' }}</clr-dg-cell>
-      </clr-dg-row>
-    </clr-datagrid>
-    <div class="clr-row mt-1">
-      <div class="clr-col-10 text-right font-weight-semibold">
-        <span>Total quantity:</span>
+<ng-container *ngIf="!activeItem; else cartItemTpl">
+  <h3>Cart</h3>
+  <ng-container *ngIf="(cart$ | async)?.items as itemsList">
+    <ng-container *ngIf="itemsList.length; else emptyCartTpl">
+      <clr-datagrid>
+        <clr-dg-column [clrDgField]="'name'">{{ 'Name' }}</clr-dg-column>
+        <clr-dg-column [clrDgField]="'price'">{{ 'Price' }}</clr-dg-column>
+        <clr-dg-column [clrDgField]="'qty'">{{ 'Qty' }}</clr-dg-column>
+        <clr-dg-column [clrDgField]="'category'">{{ 'Category' }}</clr-dg-column>
+        <clr-dg-column [clrDgField]="'isAvailable'">{{ 'Available' }}</clr-dg-column>
+        <clr-dg-row
+          *clrDgItems="let item of itemsList; let i = index; trackBy: trackById"
+          class="cart-row"
+          [clrDgItem]="item"
+          (click)="activeItem = item"
+        >
+          <clr-dg-cell>{{ item.name }}</clr-dg-cell>
+          <clr-dg-cell>{{ item.price | currency }}</clr-dg-cell>
+          <clr-dg-cell>{{ item?.qty || 0 }}</clr-dg-cell>
+          <clr-dg-cell>{{ item.category }}</clr-dg-cell>
+          <clr-dg-cell>{{ item.isAvailable ? 'Yes' : 'No' }}</clr-dg-cell>
+        </clr-dg-row>
+      </clr-datagrid>
+      <div class="clr-row mt-1">
+        <div class="clr-col-10 text-right font-weight-semibold">
+          <span>Total quantity:</span>
+        </div>
+        <div class="clr-col-2">
+          <span>{{ (cart$ | async)?.qty || 0 }}</span>
+        </div>
       </div>
-      <div class="clr-col-2">
-        <span>{{ cartService.getTotalQuantity() }}</span>
+      <div class="clr-row">
+        <div class="clr-col-10 text-right font-weight-semibold">
+          <span>Total Cost:</span>
+        </div>
+        <div class="clr-col-2">
+          <span>{{ (cart$ | async)?.total || 0 | currency }}</span>
+        </div>
       </div>
-    </div>
-    <div class="clr-row">
-      <div class="clr-col-10 text-right font-weight-semibold">
-        <span>Total Cost:</span>
-      </div>
-      <div class="clr-col-2">
-        <span>{{ cartService.getTotalCost() | currency }}</span>
-      </div>
-    </div>
+    </ng-container>
+    <ng-template #emptyCartTpl>
+      <div>Your shopping cart is empty!</div>
+    </ng-template>
   </ng-container>
-  <ng-template #emptyCartTpl>
-    <div>Your shopping cart is empty!</div>
-  </ng-template>
 </ng-container>
+<ng-template #cartItemTpl>
+  <app-cart-item
+    [item]="activeItem"
+    (quantityIncrease)="onIncreaseQty()"
+    (quantityDecrease)="onDecreaseQty()"
+    (delete)="onDeleteItem()"
+    (back)="activeItem = undefined"
+  ></app-cart-item>
+</ng-template>
