@@ -4,14 +4,14 @@ import { CartService } from '../../../../core/services/cart.service';
 import { CartItemModel } from '../../../../core/models/cart-item.model';
 
 @Component({
-  selector: 'app-cart',
-  templateUrl: './cart.component.html',
-  styleUrls: ['./cart.component.scss'],
+  selector: 'app-cart-list',
+  templateUrl: './cart-list.component.html',
+  styleUrls: ['./cart-list.component.scss'],
 })
-export class CartComponent implements OnInit {
+export class CartListComponent implements OnInit {
   itemsList$!: Observable<CartItemModel[]>;
 
-  constructor(private cartService: CartService) {}
+  constructor(public cartService: CartService) {}
 
   ngOnInit(): void {
     this.itemsList$ = this.cartService.getItemsObs();

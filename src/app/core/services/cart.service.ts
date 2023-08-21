@@ -16,21 +16,30 @@ export class CartService {
 
   addItem(product: ProductModel): void {
     const itemsMap = this.items$.getValue();
-    if (product?.id >= 0 && !itemsMap.has(product.id)) {
-      this.items$.next(itemsMap.set(product.id, { ...product, qty: 0 }));
+    if (product?.id >= 0) {
+      const oldItem = itemsMap.get(product.id);
+      if (!oldItem) {
+        this.items$.next(itemsMap.set(product.id, { ...product, qty: 1 }));
+      } else {
+        this.items$.next(itemsMap.set(product.id, { ...oldItem, qty: oldItem.qty + 1 }));
+      }
     }
   }
 
   getTotalCost(): number {
     const itemsMap = this.items$.getValue();
-    return Array.from(this.items$.getValue().keys()).reduce((acc, key) => {
-      const item = itemsMap.get(key);
-      return acc + (item?.qty || 0) * (item?.price || 0);
-    }, 0);
+    return !itemsMap.size
+      ? 0
+      : Array.from(itemsMap.keys()).reduce((acc, key) => {
+          const item = itemsMap.get(key);
+          return acc + (item?.qty || 0) * (item?.price || 0);
+        }, 0);
   }
 
   getTotalQuantity(): number {
     const itemsMap = this.items$.getValue();
-    return Array.from(this.items$.getValue().keys()).reduce((acc, key) => acc + (itemsMap.get(key)?.qty || 0), 0);
+    return !itemsMap.size
+      ? 0
+      : Array.from(itemsMap.keys()).reduce((acc, key) => acc + (itemsMap.get(key)?.qty || 0), 0);
   }
 }

@@ -1,2 +1,5 @@
-@import './reset';
+@import './bootstrap/reset';
+@import './bootstrap/variables';
+@import './bootstrap/spacing';
+@import './bootstrap/text';
 @import './clarity/overrides';
