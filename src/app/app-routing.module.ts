@@ -18,13 +18,8 @@ const routes: Routes = [
     ],
   },
   {
-    path: '404',
-    component: PageNotFoundComponent,
-  },
-  {
     path: '**',
-    pathMatch: 'full',
-    redirectTo: '404',
+    component: PageNotFoundComponent,
   },
 ];
 

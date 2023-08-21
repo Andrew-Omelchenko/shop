@@ -36,11 +36,11 @@ export class ProductsLoaderService {
     },
   ];
 
-  public getProducts(): ProductModel[] {
+  getProducts(): ProductModel[] {
     return this.products;
   }
 
-  public getProductById(productId: number): ProductModel | undefined {
+  getProductById(productId: number): ProductModel | undefined {
     return this.products.find((product) => product?.id === productId);
   }
 }

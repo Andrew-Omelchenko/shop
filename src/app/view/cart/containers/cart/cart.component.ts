@@ -9,15 +9,15 @@ import { CartItemModel } from '../../../../core/models/cart-item.model';
   styleUrls: ['./cart.component.scss'],
 })
 export class CartComponent implements OnInit {
-  public itemsList$!: Observable<CartItemModel[]>;
+  itemsList$!: Observable<CartItemModel[]>;
 
   constructor(private cartService: CartService) {}
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.itemsList$ = this.cartService.getItemsObs();
   }
 
-  public trackById(index: number, item: CartItemModel): number {
+  trackById(index: number, item: CartItemModel): number {
     return item.id;
   }
 }
