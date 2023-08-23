@@ -56,7 +56,6 @@ export class CartListComponent implements OnInit, OnDestroy {
     const activeItem = this.activeItem$.getValue();
     if (activeItem) {
       this.cartService.deleteItem(activeItem.id);
-      this.activeItem$.next(undefined);
     }
   }
 }
