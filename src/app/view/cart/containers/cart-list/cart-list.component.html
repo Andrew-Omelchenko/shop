@@ -1,4 +1,4 @@
-<ng-container *ngIf="!activeItem; else cartItemTpl">
+<ng-container *ngIf="!activeItem$.getValue(); else cartItemTpl">
   <h3>Cart</h3>
   <ng-container *ngIf="(cart$ | async)?.items as itemsList">
     <ng-container *ngIf="itemsList.length; else emptyCartTpl">
@@ -12,7 +12,7 @@
           *clrDgItems="let item of itemsList; let i = index; trackBy: trackById"
           class="cart-row"
           [clrDgItem]="item"
-          (click)="activeItem = item"
+          (click)="activeItem$.next(item)"
         >
           <clr-dg-cell>{{ item.name }}</clr-dg-cell>
           <clr-dg-cell>{{ item.price | currency }}</clr-dg-cell>
@@ -45,10 +45,10 @@
 </ng-container>
 <ng-template #cartItemTpl>
   <app-cart-item
-    [item]="activeItem"
+    [item]="activeItem$ | async"
     (quantityIncrease)="onIncreaseQty()"
     (quantityDecrease)="onDecreaseQty()"
     (delete)="onDeleteItem()"
-    (back)="activeItem = undefined"
+    (back)="activeItem$.next(undefined)"
   ></app-cart-item>
 </ng-template>

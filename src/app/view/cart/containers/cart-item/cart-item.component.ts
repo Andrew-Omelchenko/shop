@@ -9,7 +9,7 @@ import { CartItemModel } from '../../../../core/models/cart-item.model';
 })
 export class CartItemComponent {
   @Input()
-  item: CartItemModel | undefined;
+  item: CartItemModel | undefined | null;
 
   @Output()
   quantityIncrease: EventEmitter<void> = new EventEmitter<void>();
