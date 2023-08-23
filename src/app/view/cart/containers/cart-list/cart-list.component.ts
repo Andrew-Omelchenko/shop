@@ -41,14 +41,14 @@ export class CartListComponent implements OnInit, OnDestroy {
   onIncreaseQty(): void {
     const activeItem = this.activeItem$.getValue();
     if (activeItem) {
-      this.cartService.changeQtyBy(activeItem.id, 1);
+      this.cartService.updateQty(activeItem.id, activeItem.qty + 1);
     }
   }
 
   onDecreaseQty(): void {
     const activeItem = this.activeItem$.getValue();
     if (activeItem) {
-      this.cartService.changeQtyBy(activeItem.id, -1);
+      this.cartService.updateQty(activeItem.id, activeItem.qty - 1);
     }
   }
 

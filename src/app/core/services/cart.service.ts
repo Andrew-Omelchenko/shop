@@ -32,6 +32,7 @@ export class CartService {
   addItem(product: ProductModel): void {
     if (product?.id >= 0) {
       const { itemsMap } = this.cart$.getValue();
+      // adds product only if it's absent from cart
       if (!itemsMap.has(product.id)) {
         const newItemsMap = itemsMap.set(product.id, { ...product, qty: 1 });
         this.cart$.next({
@@ -39,17 +40,15 @@ export class CartService {
           qty: getTotalQty(newItemsMap),
           total: getTotalCost(newItemsMap),
         });
-      } else {
-        this.changeQtyBy(product.id, 1);
       }
     }
   }
 
-  changeQtyBy(productId: number, delta: number): void {
+  updateQty(productId: number, qty: number): void {
     const { itemsMap } = this.cart$.getValue();
     const oldItem = itemsMap.get(productId);
-    if (oldItem && oldItem.qty + delta > 0) {
-      const newItemsMap = itemsMap.set(productId, { ...oldItem, qty: oldItem.qty + delta });
+    if (oldItem) {
+      const newItemsMap = itemsMap.set(productId, { ...oldItem, qty });
       this.cart$.next({
         itemsMap: newItemsMap,
         qty: getTotalQty(newItemsMap),

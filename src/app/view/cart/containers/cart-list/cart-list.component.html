@@ -45,7 +45,7 @@
 </ng-container>
 <ng-template #cartItemTpl>
   <app-cart-item
-    [item]="activeItem$ | async"
+    [item]="activeItem$.getValue()"
     (quantityIncrease)="onIncreaseQty()"
     (quantityDecrease)="onDecreaseQty()"
     (delete)="onDeleteItem()"
