@@ -1,7 +1,7 @@
 <ng-container *ngIf="!activeItem$.getValue(); else cartItemTpl">
   <h3>Cart</h3>
-  <ng-container *ngIf="(cart$ | async)?.items as itemsList">
-    <ng-container *ngIf="itemsList.length; else emptyCartTpl">
+  <ng-container *ngIf="cart$ | async as cart">
+    <ng-container *ngIf="cart.items.length; else emptyCartTpl">
       <clr-datagrid>
         <clr-dg-column [clrDgField]="'name'">{{ 'Name' }}</clr-dg-column>
         <clr-dg-column [clrDgField]="'price'">{{ 'Price' }}</clr-dg-column>
@@ -9,7 +9,7 @@
         <clr-dg-column [clrDgField]="'category'">{{ 'Category' }}</clr-dg-column>
         <clr-dg-column [clrDgField]="'isAvailable'">{{ 'Available' }}</clr-dg-column>
         <clr-dg-row
-          *clrDgItems="let item of itemsList; let i = index; trackBy: trackById"
+          *clrDgItems="let item of cart.items; let i = index; trackBy: trackById"
           class="cart-row"
           [clrDgItem]="item"
           (click)="activeItem$.next(item)"
@@ -26,7 +26,7 @@
           <span>Total quantity:</span>
         </div>
         <div class="clr-col-2">
-          <span>{{ (cart$ | async)?.qty || 0 }}</span>
+          <span>{{ cart?.qty || 0 }}</span>
         </div>
       </div>
       <div class="clr-row">
@@ -34,7 +34,7 @@
           <span>Total Cost:</span>
         </div>
         <div class="clr-col-2">
-          <span>{{ (cart$ | async)?.total || 0 | currency }}</span>
+          <span>{{ cart?.total || 0 | currency }}</span>
         </div>
       </div>
     </ng-container>
