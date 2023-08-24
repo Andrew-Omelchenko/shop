@@ -14,6 +14,10 @@ interface CartModel {
   providedIn: 'root',
 })
 export class CartService {
+  // $ в конце названия переменной - это общепринятое название для переменных,
+  // которые являются Observable
+  // $$ в конце названия переменной - это общепринятое название для переменных,
+  // которые являются Subject
   private cart$: BehaviorSubject<CartModel> = new BehaviorSubject<CartModel>({
     itemsMap: new Map<number, CartItemModel>([]),
     qty: 0,
