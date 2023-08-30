@@ -9,6 +9,7 @@ import { ProductsModule } from './view/products/products.module';
 import { ProductsV2Module } from './view/products-v2/products-v2.module';
 import { CartModule } from './view/cart/cart.module';
 import { OrdersModule } from './view/orders/orders.module';
+import { CONSTANTS_PROVIDER } from './core/services/constants.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,7 +23,16 @@ import { OrdersModule } from './view/orders/orders.module';
     CartModule,
     OrdersModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: CONSTANTS_PROVIDER,
+      useValue: {
+        App: 'Shop',
+        Ver: '1.0',
+        API_URL: 'https://shop-production-api.westus.cloudapp.azure.com',
+      },
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
