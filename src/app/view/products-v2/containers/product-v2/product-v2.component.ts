@@ -8,12 +8,8 @@ import { ProductModel } from '../../../../core/models/product.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductV2Component {
-  // Из-за того, что тут тип ProductModel | undefined, то в шаблоне придется писать
-  // product?.title, product?.description и т.д.
-  // Чтобы этого избежать, можно поставить в конце !, тогда в шаблоне можно будет писать
-  // product.title, product.description и т.д.
   @Input()
-  product: ProductModel | undefined;
+  product: ProductModel | null = null;
 
   @Output()
   addToCart: EventEmitter<void> = new EventEmitter<void>();
@@ -22,12 +18,10 @@ export class ProductV2Component {
   back: EventEmitter<void> = new EventEmitter<void>();
 
   onAddToCart(): void {
-    this.addToCart.next();
+    this.addToCart.emit();
   }
 
-  // Метод next это метод Subject, который является базовым класом для EventEmmitter
-  // У EventEmmitter есть метод emit, который делает тоже самое
   onBack(): void {
-    this.back.next();
+    this.back.emit();
   }
 }

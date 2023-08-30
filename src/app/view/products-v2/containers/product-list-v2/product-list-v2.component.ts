@@ -11,7 +11,7 @@ import { CartService } from '../../../../core/services/cart.service';
 export class ProductListV2Component implements OnInit {
   productList!: ProductModel[];
 
-  activeProduct: ProductModel | undefined = undefined;
+  activeProduct: ProductModel | null = null;
 
   constructor(
     private productsLoader: ProductsLoaderService,
@@ -34,14 +34,11 @@ export class ProductListV2Component implements OnInit {
     if (this.activeProduct) {
       console.log(`Product with id of ${this.activeProduct?.id} has been added to shopping cart!`);
       this.cartService.addItem(this.activeProduct);
-      this.activeProduct = undefined;
+      this.activeProduct = null;
     }
   }
 
-  // Есть такое негласное правило, что значение undefined - это системное значение,
-  // которое устанавливается системой, а не программистом.
-  // Программист может устанавливать значение null, но не undefined.
   onBack(): void {
-    this.activeProduct = undefined;
+    this.activeProduct = null;
   }
 }

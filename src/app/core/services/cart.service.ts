@@ -14,17 +14,13 @@ interface CartModel {
   providedIn: 'root',
 })
 export class CartService {
-  // $ в конце названия переменной - это общепринятое название для переменных,
-  // которые являются Observable
-  // $$ в конце названия переменной - это общепринятое название для переменных,
-  // которые являются Subject
-  private cart$: BehaviorSubject<CartModel> = new BehaviorSubject<CartModel>({
+  private cart$$: BehaviorSubject<CartModel> = new BehaviorSubject<CartModel>({
     itemsMap: new Map<number, CartItemModel>([]),
     qty: 0,
     total: 0,
   });
   getCartObservable(): Observable<CartContentModel> {
-    return this.cart$.asObservable().pipe(
+    return this.cart$$.asObservable().pipe(
       map(({ itemsMap, qty, total }) => ({
         qty,
         total,
@@ -35,11 +31,11 @@ export class CartService {
 
   addItem(product: ProductModel): void {
     if (product?.id >= 0) {
-      const { itemsMap } = this.cart$.getValue();
+      const { itemsMap } = this.cart$$.getValue();
       // adds product only if it's absent from cart
       if (!itemsMap.has(product.id)) {
         const newItemsMap = itemsMap.set(product.id, { ...product, qty: 1 });
-        this.cart$.next({
+        this.cart$$.next({
           itemsMap: newItemsMap,
           qty: getTotalQty(newItemsMap),
           total: getTotalCost(newItemsMap),
@@ -49,11 +45,11 @@ export class CartService {
   }
 
   updateQty(productId: number, qty: number): void {
-    const { itemsMap } = this.cart$.getValue();
+    const { itemsMap } = this.cart$$.getValue();
     const oldItem = itemsMap.get(productId);
     if (oldItem) {
       const newItemsMap = itemsMap.set(productId, { ...oldItem, qty });
-      this.cart$.next({
+      this.cart$$.next({
         itemsMap: newItemsMap,
         qty: getTotalQty(newItemsMap),
         total: getTotalCost(newItemsMap),
@@ -63,9 +59,9 @@ export class CartService {
 
   deleteItem(itemId: number): void {
     if (itemId >= 0) {
-      const { itemsMap } = this.cart$.getValue();
+      const { itemsMap } = this.cart$$.getValue();
       itemsMap.delete(itemId);
-      this.cart$.next({
+      this.cart$$.next({
         itemsMap,
         qty: getTotalQty(itemsMap),
         total: getTotalCost(itemsMap),

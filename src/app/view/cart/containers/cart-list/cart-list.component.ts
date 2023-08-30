@@ -12,26 +12,26 @@ import { CartContentModel } from '../../../../core/models/cart-content.model';
 export class CartListComponent implements OnInit, OnDestroy {
   cart$!: Observable<CartContentModel>;
 
-  activeItem$: BehaviorSubject<CartItemModel | undefined> = new BehaviorSubject<CartItemModel | undefined>(undefined);
+  activeItem$$: BehaviorSubject<CartItemModel | null> = new BehaviorSubject<CartItemModel | null>(null);
 
-  private onDestroy$: Subject<void> = new Subject<void>();
+  private onDestroy$$: Subject<void> = new Subject<void>();
 
   constructor(public cartService: CartService) {}
 
   ngOnInit(): void {
     this.cart$ = this.cartService.getCartObservable();
-    this.cart$.pipe(takeUntil(this.onDestroy$)).subscribe((cart) => {
-      const activeItem = this.activeItem$.getValue();
+    this.cart$.pipe(takeUntil(this.onDestroy$$)).subscribe((cart) => {
+      const activeItem = this.activeItem$$.getValue();
       if (activeItem) {
-        const found = cart.items.find((item) => item.id === activeItem.id);
-        this.activeItem$.next(found);
+        const found = cart.items.find((item) => item.id === activeItem.id) || null;
+        this.activeItem$$.next(found);
       }
     });
   }
 
   ngOnDestroy(): void {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
+    this.onDestroy$$.next();
+    this.onDestroy$$.complete();
   }
 
   trackById(index: number, item: CartItemModel): number {
@@ -39,21 +39,21 @@ export class CartListComponent implements OnInit, OnDestroy {
   }
 
   onIncreaseQty(): void {
-    const activeItem = this.activeItem$.getValue();
+    const activeItem = this.activeItem$$.getValue();
     if (activeItem) {
       this.cartService.updateQty(activeItem.id, activeItem.qty + 1);
     }
   }
 
   onDecreaseQty(): void {
-    const activeItem = this.activeItem$.getValue();
+    const activeItem = this.activeItem$$.getValue();
     if (activeItem) {
       this.cartService.updateQty(activeItem.id, activeItem.qty - 1);
     }
   }
 
   onDeleteItem(): void {
-    const activeItem = this.activeItem$.getValue();
+    const activeItem = this.activeItem$$.getValue();
     if (activeItem) {
       this.cartService.deleteItem(activeItem.id);
     }

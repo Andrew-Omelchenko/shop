@@ -13,7 +13,7 @@ import { CartService } from '../../../../core/services/cart.service';
 export class ProductComponent implements OnInit, OnDestroy {
   product: ProductModel | undefined;
 
-  private onDestroy$: Subject<void> = new Subject<void>();
+  private onDestroy$$: Subject<void> = new Subject<void>();
 
   constructor(
     private readonly router: Router,
@@ -25,7 +25,7 @@ export class ProductComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.params
       .pipe(
-        takeUntil(this.onDestroy$),
+        takeUntil(this.onDestroy$$),
         map((params) => params?.['productId']),
         distinctUntilChanged(),
       )
@@ -36,8 +36,8 @@ export class ProductComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.onDestroy$.next();
-    this.onDestroy$.complete();
+    this.onDestroy$$.next();
+    this.onDestroy$$.complete();
   }
 
   onAddToCart(product: ProductModel | undefined): void {
