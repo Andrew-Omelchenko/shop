@@ -12,6 +12,7 @@ import { OrdersModule } from './view/orders/orders.module';
 import { CONSTANTS_PROVIDER } from './core/services/constants.service';
 import { GeneratedString, GeneratorFactory } from './core/services/generator.factory';
 import { GeneratorService } from './core/services/generator.service';
+import { FirstComponent } from './view/first/first.component';
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,6 +25,7 @@ import { GeneratorService } from './core/services/generator.service';
     ProductsV2Module,
     CartModule,
     OrdersModule,
+    FirstComponent,
   ],
   providers: [
     {
