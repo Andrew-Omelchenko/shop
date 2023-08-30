@@ -10,6 +10,8 @@ import { ProductsV2Module } from './view/products-v2/products-v2.module';
 import { CartModule } from './view/cart/cart.module';
 import { OrdersModule } from './view/orders/orders.module';
 import { CONSTANTS_PROVIDER } from './core/services/constants.service';
+import { GeneratedString, GeneratorFactory } from './core/services/generator.factory';
+import { GeneratorService } from './core/services/generator.service';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,6 +34,7 @@ import { CONSTANTS_PROVIDER } from './core/services/constants.service';
         API_URL: 'https://shop-production-api.westus.cloudapp.azure.com',
       },
     },
+    { provide: GeneratedString, useFactory: GeneratorFactory(6), deps: [GeneratorService] },
   ],
   bootstrap: [AppComponent],
 })
