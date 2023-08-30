@@ -38,6 +38,9 @@ export class ProductListV2Component implements OnInit {
     }
   }
 
+  // Есть такое негласное правило, что значение undefined - это системное значение,
+  // которое устанавливается системой, а не программистом.
+  // Программист может устанавливать значение null, но не undefined.
   onBack(): void {
     this.activeProduct = undefined;
   }
