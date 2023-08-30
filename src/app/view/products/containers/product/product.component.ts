@@ -43,7 +43,7 @@ export class ProductComponent implements OnInit, OnDestroy {
   onAddToCart(product: ProductModel | undefined): void {
     if (!product) return;
     console.log(`Product with id of ${product.id} has been added to shopping cart!`);
-    this.cartService.addItem(product);
+    this.cartService.addProduct(product);
   }
 
   onBackToProducts(): void {

@@ -33,7 +33,7 @@ export class ProductListV2Component implements OnInit {
   onAddToCart(): void {
     if (this.activeProduct) {
       console.log(`Product with id of ${this.activeProduct?.id} has been added to shopping cart!`);
-      this.cartService.addItem(this.activeProduct);
+      this.cartService.addProduct(this.activeProduct);
       this.activeProduct = null;
     }
   }

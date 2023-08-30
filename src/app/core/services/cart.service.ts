@@ -19,6 +19,19 @@ export class CartService {
     qty: 0,
     total: 0,
   });
+
+  get totalQuantity(): number {
+    return this.cart$$.getValue().qty;
+  }
+
+  get totalCost(): number {
+    return this.cart$$.getValue().total;
+  }
+
+  get isEmptyCart(): boolean {
+    return this.cart$$.getValue().itemsMap.size > 0;
+  }
+
   getCartObservable(): Observable<CartContentModel> {
     return this.cart$$.asObservable().pipe(
       map(({ itemsMap, qty, total }) => ({
@@ -29,7 +42,11 @@ export class CartService {
     );
   }
 
-  addItem(product: ProductModel): void {
+  getProducts(): CartItemModel[] {
+    return Array.from(this.cart$$.getValue().itemsMap.values());
+  }
+
+  addProduct(product: ProductModel): void {
     if (product?.id >= 0) {
       const { itemsMap } = this.cart$$.getValue();
       // adds product only if it's absent from cart
@@ -44,20 +61,7 @@ export class CartService {
     }
   }
 
-  updateQty(productId: number, qty: number): void {
-    const { itemsMap } = this.cart$$.getValue();
-    const oldItem = itemsMap.get(productId);
-    if (oldItem) {
-      const newItemsMap = itemsMap.set(productId, { ...oldItem, qty });
-      this.cart$$.next({
-        itemsMap: newItemsMap,
-        qty: getTotalQty(newItemsMap),
-        total: getTotalCost(newItemsMap),
-      });
-    }
-  }
-
-  deleteItem(itemId: number): void {
+  removeProduct(itemId: number): void {
     if (itemId >= 0) {
       const { itemsMap } = this.cart$$.getValue();
       itemsMap.delete(itemId);
@@ -65,6 +69,35 @@ export class CartService {
         itemsMap,
         qty: getTotalQty(itemsMap),
         total: getTotalCost(itemsMap),
+      });
+    }
+  }
+
+  increaseQuantity(productId: number): void {
+    this.changeQuantityBy(productId, 1);
+  }
+
+  decreaseQuantity(productId: number): void {
+    this.changeQuantityBy(productId, -1);
+  }
+
+  removeAllProducts(): void {
+    this.cart$$.next({
+      itemsMap: new Map<number, CartItemModel>([]),
+      qty: 0,
+      total: 0,
+    });
+  }
+
+  private changeQuantityBy(productId: number, delta: number): void {
+    const { itemsMap } = this.cart$$.getValue();
+    const oldItem = itemsMap.get(productId);
+    if (oldItem) {
+      const newItemsMap = itemsMap.set(productId, { ...oldItem, qty: oldItem.qty + delta });
+      this.cart$$.next({
+        itemsMap: newItemsMap,
+        qty: getTotalQty(newItemsMap),
+        total: getTotalCost(newItemsMap),
       });
     }
   }
