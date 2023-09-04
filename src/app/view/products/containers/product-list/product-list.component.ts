@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductsLoaderService } from '../../../../core/loaders/products-loader.service';
 import { ProductModel } from '../../../../core/models/product.model';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product-list',
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./product-list.component.scss'],
 })
 export class ProductListComponent implements OnInit {
-  productList!: ProductModel[];
+  productList$!: Observable<ProductModel[]>;
 
   constructor(
     private readonly router: Router,
@@ -17,7 +18,7 @@ export class ProductListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.productList = this.productsLoader.getProducts();
+    this.productList$ = this.productsLoader.getProducts();
   }
 
   trackById(index: number, product: ProductModel): number {

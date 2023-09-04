@@ -6,7 +6,7 @@
     <clr-dg-column [clrDgField]="'category'">{{ 'Category' }}</clr-dg-column>
     <clr-dg-column [clrDgField]="'isAvailable'">{{ 'Available' }}</clr-dg-column>
     <clr-dg-row
-      *clrDgItems="let product of productList; let i = index; trackBy: trackById"
+      *clrDgItems="let product of (productList$ | async)!; let i = index; trackBy: trackById"
       class="product-row"
       [clrDgItem]="product"
       (click)="onSelectProduct(product)"
