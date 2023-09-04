@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ProductModel } from '../../../../core/models/product.model';
 import { ProductsLoaderService } from '../../../../core/loaders/products-loader.service';
 import { CartService } from '../../../../core/services/cart.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product-list-v2',
@@ -9,7 +10,7 @@ import { CartService } from '../../../../core/services/cart.service';
   styleUrls: ['./product-list-v2.component.scss'],
 })
 export class ProductListV2Component implements OnInit {
-  productList!: ProductModel[];
+  productList$!: Observable<ProductModel[]>;
 
   activeProduct: ProductModel | null = null;
 
@@ -19,7 +20,7 @@ export class ProductListV2Component implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.productList = this.productsLoader.getProducts();
+    this.productList$ = this.productsLoader.getProducts();
   }
 
   trackById(index: number, product: ProductModel): number {

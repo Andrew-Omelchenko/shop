@@ -3,8 +3,9 @@
     <div class="card">
       <h3 class="card-header">Product</h3>
       <div class="card-block">
-        <h4 class="card-title">{{ product?.name }}</h4>
+        <h4 class="card-title">{{ product?.name | uppercase }}</h4>
         <div class="card-text">
+          <div>{{ product?.category | uppercase }}</div>
           <div>{{ product?.description }}</div>
           <div>{{ product?.price | currency }}</div>
           <div>{{ product?.isAvailable ? 'Available' : 'N/A' }}</div>

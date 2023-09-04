@@ -1,0 +1,62 @@
+.dropdown {
+  font-size: 14px;
+  cursor: pointer;
+
+  .btn-dropdown,
+  .dropdown-item {
+    line-height: 34px;
+    padding: 0 0.5rem !important;
+  }
+
+  .btn-dropdown {
+    display: flex;
+    justify-content: space-between;
+    min-width: 120px;
+    background-color: transparent;
+    border: solid 1px rgba(37, 19, 19, 0.25) !important;
+
+    .icon {
+      height: 16px;
+      width: 16px;
+    }
+
+    cds-icon.icon {
+      right: 0.3rem !important;
+    }
+
+    &.active {
+      border-bottom-color: #ffffff;
+      box-shadow: 0 1px 3px 0 rgba(37, 19, 19, 0.25);
+
+      &:hover {
+        background-color: #f7f7f7;
+      }
+    }
+  }
+
+  .dropdown-menu {
+    border-top: none;
+    margin-top: -1px;
+    padding: 0;
+    box-shadow: 0 2px 3px 0 rgba(37, 19, 19, 0.25);
+
+    .dropdown-item {
+      padding: 0 0.4rem;
+      background-color: transparent;
+
+      &:hover {
+        background-color: #f7f7f7;
+      }
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  .btn-dropdown,
+  .dropdown-menu {
+    border-radius: 0;
+    border-color: rgba(115, 115, 115, 0.25);
+  }
+}

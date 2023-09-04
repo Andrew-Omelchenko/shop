@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ProductModel } from '../models/product.model';
 import { Category } from '../models/common.types';
 import { IdGenerator } from '../utils/id-generator';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +32,7 @@ export class ProductsLoaderService {
       name: 'Product #3',
       description: 'Product #3 description',
       price: 2.84,
-      category: Category.Convenience,
+      category: Category.Unsought,
       isAvailable: false,
     },
     {
@@ -47,7 +48,7 @@ export class ProductsLoaderService {
       name: 'Product #5',
       description: 'Product #5 description',
       price: 21.63,
-      category: Category.Convenience,
+      category: Category.Shopping,
       isAvailable: false,
     },
     {
@@ -55,13 +56,13 @@ export class ProductsLoaderService {
       name: 'Product #6',
       description: 'Product #6 description',
       price: 151.1,
-      category: Category.Convenience,
+      category: Category.Specialty,
       isAvailable: true,
     },
   ];
 
-  getProducts(): ProductModel[] {
-    return this.products;
+  getProducts(): Observable<ProductModel[]> {
+    return of(this.products);
   }
 
   getProductById(productId: number): ProductModel | undefined {
