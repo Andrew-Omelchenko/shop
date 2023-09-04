@@ -12,15 +12,18 @@ export class OrderByPipe implements PipeTransform {
       let compareFn: (a: CartItemModel, b: CartItemModel) => number;
       switch (type) {
         case 'number':
-          compareFn = (a, b) => <number>a[key] - <number>b[key];
+          compareFn = (a, b) => (isAsc ? <number>a[key] - <number>b[key] : <number>b[key] - <number>a[key]);
           break;
         case 'string':
-          compareFn = (a, b) => (a[key] as string).localeCompare(b[key] as string);
+          compareFn = (a, b) =>
+            isAsc
+              ? (a[key] as string).localeCompare(b[key] as string)
+              : (b[key] as string).localeCompare(a[key] as string);
           break;
         default:
         // TODO: other cases
       }
-      return [...value].sort((a, b): number => (isAsc ? compareFn(a, b) : -compareFn(a, b)));
+      return [...value].sort((a, b): number => compareFn(a, b));
     }
     // return unchanged array otherwise
     return value;
