@@ -2,6 +2,36 @@
   <h3>Cart</h3>
   <ng-container *ngIf="cart$ | async as cart">
     <ng-container *ngIf="cart.items.length; else emptyCartTpl">
+      <div>
+        <span class="mr-1">Sort by:</span>
+        <clr-dropdown class="dropdown">
+          <button clrDropdownTrigger class="btn-dropdown">
+            <span>{{ selectedFieldOption.name }}</span>
+            <cds-icon
+              *ngIf="isFieldDropdownOpen; else caretDownTpl"
+              class="icon"
+              size="16"
+              shape="angle"
+              direction="up"
+            ></cds-icon>
+            <ng-template #caretDownTpl>
+              <cds-icon class="icon" size="16" shape="angle" direction="down"></cds-icon>
+            </ng-template>
+          </button>
+          <ng-template [(clrIfOpen)]="isFieldDropdownOpen"></ng-template>
+          <clr-dropdown-menu class="dropdown-menu" clrPosition="bottom-left" *clrIfOpen>
+            <ng-template ngFor let-fieldOption [ngForOf]="fieldOptions">
+              <button class="dropdown-item" (click)="onSelectFieldOption(fieldOption)">
+                {{ fieldOption.name }}
+              </button>
+            </ng-template>
+          </clr-dropdown-menu>
+        </clr-dropdown>
+        <clr-checkbox-wrapper class="checkbox-wrapper ml-1">
+          <input id="asc" type="checkbox" clrCheckbox [(ngModel)]="isAscending" />
+          <label for="asc" class="check-label">Sort in Ascending order</label>
+        </clr-checkbox-wrapper>
+      </div>
       <clr-datagrid>
         <clr-dg-column [clrDgField]="'name'">{{ 'Name' }}</clr-dg-column>
         <clr-dg-column [clrDgField]="'price'">{{ 'Price' }}</clr-dg-column>
@@ -9,7 +39,11 @@
         <clr-dg-column [clrDgField]="'category'">{{ 'Category' }}</clr-dg-column>
         <clr-dg-column [clrDgField]="'isAvailable'">{{ 'Available' }}</clr-dg-column>
         <clr-dg-row
-          *clrDgItems="let item of cart.items; let i = index; trackBy: trackById"
+          *clrDgItems="
+            let item of cart.items | orderBy: selectedFieldOption.value : isAscending;
+            let i = index;
+            trackBy: trackById
+          "
           class="cart-row"
           [clrDgItem]="item"
           (click)="activeItem$$.next(item)"

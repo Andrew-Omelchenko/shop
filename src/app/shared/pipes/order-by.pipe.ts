@@ -1,12 +1,12 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { ProductModel } from '../../core/models/product.model';
+import { CartItemModel } from '../../core/models/cart-item.model';
 
 @Pipe({
   name: 'orderBy',
   pure: false,
 })
 export class OrderByPipe implements PipeTransform {
-  transform(value: ProductModel[], key: keyof ProductModel, isAsc = false): ProductModel[] {
+  transform(value: CartItemModel[], key: keyof CartItemModel, isAsc = false): CartItemModel[] {
     return [...value].sort((a, b): number => {
       let result: number;
       switch (typeof a[key]) {
