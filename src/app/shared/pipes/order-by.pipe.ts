@@ -7,20 +7,22 @@ import { CartItemModel } from '../../core/models/cart-item.model';
 })
 export class OrderByPipe implements PipeTransform {
   transform(value: CartItemModel[], key: keyof CartItemModel, isAsc = false): CartItemModel[] {
-    return [...value].sort((a, b): number => {
-      let result: number;
-      switch (typeof a[key]) {
+    const type = value?.length ? typeof value[0][key] : 'undefined';
+    if (type === 'number' || type === 'string') {
+      let compareFn: (a: CartItemModel, b: CartItemModel) => number;
+      switch (type) {
         case 'number':
-          result = <number>a[key] - <number>b[key];
+          compareFn = (a, b) => <number>a[key] - <number>b[key];
           break;
         case 'string':
-          result = (a[key] as string).localeCompare(b[key] as string);
+          compareFn = (a, b) => (a[key] as string).localeCompare(b[key] as string);
           break;
         default:
-          result = 0;
+        // TODO: other cases
       }
-      // returns 0 if types don't match the processing logic implemented
-      return isAsc ? result : -result;
-    });
+      return [...value].sort((a, b): number => (isAsc ? compareFn(a, b) : -compareFn(a, b)));
+    }
+    // return unchanged array otherwise
+    return value;
   }
 }
