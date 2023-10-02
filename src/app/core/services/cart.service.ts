@@ -29,7 +29,7 @@ export class CartService {
   }
 
   get isEmptyCart(): boolean {
-    return this.cart$$.getValue().itemsMap.size > 0;
+    return this.cart$$.getValue().itemsMap.size === 0;
   }
 
   getCartObservable(): Observable<CartContentModel> {

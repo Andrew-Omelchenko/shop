@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ProductModel } from '../models/product.model';
 import { Category } from '../models/common.types';
 import { IdGenerator } from '../utils/id-generator';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,7 @@ import { Observable, of } from 'rxjs';
 export class ProductsLoaderService {
   private static idGenerator = IdGenerator();
 
-  private products: ProductModel[] = [
+  private readonly initialList: ProductModel[] = [
     {
       id: ProductsLoaderService.idGenerator.next().value,
       name: 'Product #1',
@@ -61,11 +61,29 @@ export class ProductsLoaderService {
     },
   ];
 
-  getProducts(): Observable<ProductModel[]> {
-    return of(this.products);
+  private products$$: BehaviorSubject<ProductModel[]> = new BehaviorSubject<ProductModel[]>([...this.initialList]);
+
+  getProductsObs(): Observable<ProductModel[]> {
+    return this.products$$.asObservable();
   }
 
   getProductById(productId: number): ProductModel | undefined {
-    return this.products.find((product) => product?.id === productId);
+    return this.products$$.getValue().find((product) => product?.id === productId);
+  }
+
+  saveProduct(product: ProductModel): void {
+    if (product.id === 0) {
+      this.products$$.next([
+        ...this.products$$.getValue(),
+        { ...product, id: ProductsLoaderService.idGenerator.next().value },
+      ]);
+      return;
+    }
+    const index = this.products$$.getValue().findIndex((p) => p.id === product.id);
+    if (index !== -1) {
+      const newList = [...this.products$$.getValue()];
+      newList[index] = product;
+      this.products$$.next(newList);
+    }
   }
 }
