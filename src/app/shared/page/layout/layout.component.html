@@ -1,0 +1,26 @@
+<header class="header-6">
+  <div class="branding">
+    <span class="title">Shop</span>
+  </div>
+</header>
+<nav class="subnav">
+  <ul class="nav">
+    <li class="nav-item">
+      <a routerLink="/products-list" class="nav-link nav-text" [routerLinkActive]="'active'">Home</a>
+    </li>
+    <li class="nav-item">
+      <a routerLink="/admin" class="nav-link nav-text" [routerLinkActive]="'active'">Admin</a>
+    </li>
+    <li class="nav-item">
+      <a routerLink="/cart" class="nav-link nav-text" [routerLinkActive]="'active'">
+        Cart
+        <span class="ml-1 fs-10 font-italic font-weight-semibold">{{
+          'Quantity in cart: ' + (qtyInCart$ | async)
+        }}</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+<div class="content-area">
+  <ng-content></ng-content>
+</div>

@@ -1,0 +1,46 @@
+<div class="login-wrapper">
+  <form class="login" [formGroup]="userForm" (submit)="onSubmit()">
+    <section class="title">
+      <div class="welcome">Login</div>
+    </section>
+    <div class="login-group">
+      <clr-select-container>
+        <label for="type">User Role</label>
+        <select clrSelect id="type" name="type" formControlName="type">
+          <option *ngFor="let option of typeOptions" [value]="option.value">{{ option.name }}</option>
+        </select>
+      </clr-select-container>
+      <clr-input-container>
+        <label for="username" class="clr-sr-only">User Name</label>
+        <input
+          formControlName="username"
+          id="username"
+          type="text"
+          autocomplete="username"
+          name="username"
+          clrInput
+          placeholder="Enter your user name"
+        />
+      </clr-input-container>
+      <clr-password-container>
+        <label for="password" class="clr-sr-only">Password</label>
+        <input
+          formControlName="password"
+          id="password"
+          type="password"
+          autocomplete="current-password"
+          name="password"
+          clrPassword
+          placeholder="Enter password"
+        />
+      </clr-password-container>
+      <clr-checkbox-wrapper>
+        <label for="rememberMe">Remember me</label>
+        <input type="checkbox" id="rememberMe" name="rememberMe" clrCheckbox formControlName="rememberMe" />
+      </clr-checkbox-wrapper>
+      <div *ngIf="userForm.controls['username'].invalid" class="error active">Invalid user name</div>
+      <button type="submit" class="btn btn-primary" [disabled]="userForm.controls['username'].invalid">Log in</button>
+    </div>
+    <div class="mt-1 auth-error" *ngIf="hasInvalidCredentials">Invalid credentials have been entered last time!</div>
+  </form>
+</div>

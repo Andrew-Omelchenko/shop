@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ProductModel } from '../../../../core/models/product.model';
+import { Router } from '@angular/router';
 import { ProductsLoaderService } from '../../../../core/loaders/products-loader.service';
 
 @Component({
-  selector: 'app-product-list-v2',
-  templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.scss'],
+  selector: 'app-products',
+  templateUrl: './products.component.html',
+  styleUrls: ['./products.component.scss'],
 })
-export class ProductListComponent implements OnInit {
+export class ProductsComponent implements OnInit {
   productList$!: Observable<ProductModel[]>;
 
   constructor(
@@ -26,6 +26,6 @@ export class ProductListComponent implements OnInit {
   }
 
   onSelectProduct(product: ProductModel): void {
-    this.router.navigate(['product', product.id]);
+    this.router.navigate(['admin', 'products', 'edit', product.id]);
   }
 }

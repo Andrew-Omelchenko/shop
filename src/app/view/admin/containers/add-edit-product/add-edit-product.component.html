@@ -1,0 +1,31 @@
+<form [formGroup]="productForm" (ngSubmit)="onSaveProduct()">
+  <clr-input-container>
+    <label for="name">Name</label>
+    <input clrInput type="text" class="form-control" id="name" name="name" placeholder="Name" formControlName="name" />
+  </clr-input-container>
+  <clr-input-container>
+    <label for="description">Description</label>
+    <textarea
+      clrInput
+      type="text"
+      id="description"
+      name="description"
+      placeholder="Description"
+      formControlName="description"
+    ></textarea>
+  </clr-input-container>
+  <clr-input-container>
+    <label for="price">Price</label>
+    <input clrInput id="price" name="price" placeholder="Price" formControlName="price" />
+  </clr-input-container>
+  <clr-input-container>
+    <label for="category">Category</label>
+    <input clrInput id="category" name="category" formControlName="category" />
+  </clr-input-container>
+  <clr-checkbox-wrapper class="mt-1">
+    <label for="isAvailable">Availability</label>
+    <input type="checkbox" id="isAvailable" name="isAvailable" clrCheckbox formControlName="isAvailable" />
+  </clr-checkbox-wrapper>
+  <button type="submit" class="btn btn-primary" [disabled]="productForm.invalid">Save</button>
+  <button type="button" class="btn btn-outline" (click)="onGoBack()">Back</button>
+</form>

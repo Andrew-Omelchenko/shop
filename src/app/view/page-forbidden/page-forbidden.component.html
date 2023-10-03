@@ -1,0 +1,16 @@
+<div class="clr-row">
+  <div class="clr-col-lg-5 clr-col-md-8 clr-col-12">
+    <div class="card">
+      <h3 class="card-header">403 Forbidden</h3>
+      <div class="card-block">
+        <h4 class="card-title">Please, choose an action...</h4>
+      </div>
+      <div class="card-footer">
+        <a class="btn btn-sm btn-primary" [routerLink]="['/login', { queryParams: { redirectUrl: this.redirectUrl } }]"
+          >Return to login page</a
+        >
+        <a class="btn btn-sm btn-secondary" [routerLink]="'/products-list'">Return to Product List page</a>
+      </div>
+    </div>
+  </div>
+</div>
