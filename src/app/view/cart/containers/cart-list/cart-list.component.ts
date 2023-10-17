@@ -33,6 +33,8 @@ export class CartListComponent implements OnInit, OnDestroy {
     this.selectedFieldOption = this.fieldOptions[0];
     this.cart$ = this.cartService.getCartObservable();
     this.cart$.pipe(takeUntil(this.onDestroy$$)).subscribe((cart) => {
+      // геттер value возвращает текущее значение BehaviorSubject
+      // и вызывает метод getValue()
       const activeItem = this.activeItem$$.getValue();
       if (activeItem) {
         const found = cart.items.find((item) => item.id === activeItem.id) || null;
