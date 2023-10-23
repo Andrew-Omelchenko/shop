@@ -1,4 +1,4 @@
-<ng-container *ngIf="!activeItem$$.getValue(); else cartItemTpl">
+<ng-container *ngIf="!activeItem$$.value; else cartItemTpl">
   <h3>Cart</h3>
   <ng-container *ngIf="cart$ | async as cart">
     <ng-container *ngIf="cart.items.length; else emptyCartTpl">
@@ -28,7 +28,13 @@
           </clr-dropdown-menu>
         </clr-dropdown>
         <clr-checkbox-wrapper class="checkbox-wrapper ml-1">
-          <input id="asc" type="checkbox" clrCheckbox [(ngModel)]="isAscending" />
+          <input
+            id="asc"
+            type="checkbox"
+            clrCheckbox
+            [ngModel]="isAscending$ | async"
+            (ngModelChange)="onSortingOrderChange($event)"
+          />
           <label for="asc" class="check-label">Sort in Ascending order</label>
         </clr-checkbox-wrapper>
       </div>
@@ -40,7 +46,7 @@
         <clr-dg-column [clrDgField]="'isAvailable'">{{ 'Available' }}</clr-dg-column>
         <clr-dg-row
           *clrDgItems="
-            let item of cart.items | orderBy: selectedFieldOption.value : isAscending;
+            let item of cart.items | orderBy: selectedFieldOption.value : !!(isAscending$ | async);
             let i = index;
             trackBy: trackById
           "
@@ -80,7 +86,7 @@
 </ng-container>
 <ng-template #cartItemTpl>
   <app-cart-item
-    [item]="activeItem$$.getValue()"
+    [item]="activeItem$$.value"
     (quantityIncrease)="onIncreaseQty()"
     (quantityDecrease)="onDecreaseQty()"
     (delete)="onDeleteItem()"

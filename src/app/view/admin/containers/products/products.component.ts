@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
 import { ProductModel } from '../../../../core/models/product.model';
 import { Router } from '@angular/router';
-import { ProductsLoaderService } from '../../../../core/loaders/products-loader.service';
+import { ProductsPromiseLoaderService } from '../../../../core/loaders/products-promise-loader.service';
 
 @Component({
   selector: 'app-products',
@@ -10,15 +9,15 @@ import { ProductsLoaderService } from '../../../../core/loaders/products-loader.
   styleUrls: ['./products.component.scss'],
 })
 export class ProductsComponent implements OnInit {
-  productList$!: Observable<ProductModel[]>;
+  productList$!: Promise<ProductModel[]>;
 
   constructor(
     private readonly router: Router,
-    private readonly productsLoader: ProductsLoaderService,
+    private readonly productsLoader: ProductsPromiseLoaderService,
   ) {}
 
   ngOnInit(): void {
-    this.productList$ = this.productsLoader.getProductsObs();
+    this.productList$ = this.productsLoader.getProducts();
   }
 
   trackById(index: number, product: ProductModel): number {
