@@ -17,6 +17,8 @@ import { PageForbiddenComponent } from './view/page-forbidden/page-forbidden.com
 import { ProcessOrderComponent } from './view/process-order/process-order.component';
 import { TitleStrategy } from '@angular/router';
 import { PageTitleStrategyService } from './core/services/page-title-strategy.service';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { httpInterceptorProviders } from './core/interceptors/const';
 
 @NgModule({
   declarations: [AppComponent, PageForbiddenComponent, ProcessOrderComponent],
@@ -39,10 +41,12 @@ import { PageTitleStrategyService } from './core/services/page-title-strategy.se
       useValue: {
         App: 'Shop',
         Ver: '1.0',
-        API_URL: 'https://shop-production-api.westus.cloudapp.azure.com',
+        API_URL: 'http://localhost:3000',
       },
     },
     { provide: GeneratedString, useFactory: GeneratorFactory(6), deps: [GeneratorService] },
+    provideHttpClient(withInterceptorsFromDi()),
+    httpInterceptorProviders,
   ],
   bootstrap: [AppComponent],
 })

@@ -18,14 +18,14 @@ export class ProductListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.productList$ = this.productsLoader.getProductsObs();
+    this.productList$ = this.productsLoader.getProducts();
   }
 
   trackById(index: number, product: ProductModel): number {
-    return product.id;
+    return product?.id;
   }
 
   onSelectProduct(product: ProductModel): void {
-    this.router.navigate(['product', product.id]);
+    this.router.navigate(['product', product?.id]);
   }
 }

@@ -63,25 +63,25 @@ export class ProductsLoaderService {
 
   private products$$: BehaviorSubject<ProductModel[]> = new BehaviorSubject<ProductModel[]>([...this.initialList]);
 
-  getProductsObs(): Observable<ProductModel[]> {
+  getProducts(): Observable<ProductModel[]> {
     return this.products$$.asObservable();
   }
 
   getProductById(productId: number): ProductModel | undefined {
-    return this.products$$.getValue().find((product) => product?.id === productId);
+    return this.products$$.value.find((product) => product?.id === productId);
   }
 
   saveProduct(product: ProductModel): void {
     if (product.id === 0) {
       this.products$$.next([
-        ...this.products$$.getValue(),
+        ...this.products$$.value,
         { ...product, id: ProductsLoaderService.idGenerator.next().value },
       ]);
       return;
     }
-    const index = this.products$$.getValue().findIndex((p) => p.id === product.id);
+    const index = this.products$$.value.findIndex((p) => p.id === product.id);
     if (index !== -1) {
-      const newList = [...this.products$$.getValue()];
+      const newList = [...this.products$$.value];
       newList[index] = product;
       this.products$$.next(newList);
     }

@@ -4,3 +4,8 @@ export enum Category {
   Specialty = 'Specialty Products',
   Unsought = 'Unsought Goods',
 }
+
+export enum SortingOrder {
+  Ascending = 'ASC',
+  Descending = 'DESC',
+}

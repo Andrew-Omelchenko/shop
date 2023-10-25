@@ -11,10 +11,10 @@
       [clrDgItem]="product"
       (click)="onSelectProduct(product)"
     >
-      <clr-dg-cell>{{ product.name }}</clr-dg-cell>
-      <clr-dg-cell>{{ product.price | currency }}</clr-dg-cell>
-      <clr-dg-cell>{{ product.category }}</clr-dg-cell>
-      <clr-dg-cell>{{ product.isAvailable ? 'Yes' : 'No' }}</clr-dg-cell>
+      <clr-dg-cell>{{ product?.name }}</clr-dg-cell>
+      <clr-dg-cell>{{ product?.price | currency }}</clr-dg-cell>
+      <clr-dg-cell>{{ product?.category }}</clr-dg-cell>
+      <clr-dg-cell>{{ product?.isAvailable ? 'Yes' : 'No' }}</clr-dg-cell>
     </clr-dg-row>
   </clr-datagrid>
 </ng-container>
