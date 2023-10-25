@@ -19,6 +19,8 @@ import { TitleStrategy } from '@angular/router';
 import { PageTitleStrategyService } from './core/services/page-title-strategy.service';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { httpInterceptorProviders } from './core/interceptors/const';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { RootStoreModule } from './core/root-store/root-store.module';
 
 @NgModule({
   declarations: [AppComponent, PageForbiddenComponent, ProcessOrderComponent],
@@ -31,6 +33,8 @@ import { httpInterceptorProviders } from './core/interceptors/const';
     OrdersModule,
     LoginModule,
     FirstComponent,
+    StoreDevtoolsModule.instrument({ maxAge: 25 }),
+    RootStoreModule,
     // MUST BE LAST
     AppRoutingModule,
   ],
