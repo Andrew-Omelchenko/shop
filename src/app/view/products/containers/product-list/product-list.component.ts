@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ProductModel } from '../../../../core/models/product.model';
-import { ProductsLoaderService } from '../../../../core/loaders/products-loader.service';
+import { Store } from '@ngrx/store';
+import { selectAllProducts } from '../../../../core/root-store/products/products.selectors';
+import { goAction } from '../../../../core/root-store/router/router.actions';
 
 @Component({
   selector: 'app-product-list-v2',
@@ -12,13 +13,10 @@ import { ProductsLoaderService } from '../../../../core/loaders/products-loader.
 export class ProductListComponent implements OnInit {
   productList$!: Observable<ProductModel[]>;
 
-  constructor(
-    private readonly router: Router,
-    private readonly productsLoader: ProductsLoaderService,
-  ) {}
+  constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
-    this.productList$ = this.productsLoader.getProducts();
+    this.productList$ = this.store.select(selectAllProducts);
   }
 
   trackById(index: number, product: ProductModel): number {
@@ -26,6 +24,6 @@ export class ProductListComponent implements OnInit {
   }
 
   onSelectProduct(product: ProductModel): void {
-    this.router.navigate(['product', product?.id]);
+    this.store.dispatch(goAction({ path: ['product', product?.id] }));
   }
 }

@@ -2,8 +2,9 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DEFAULT_ATTEMPTS_NUMBER } from '../config/config';
 import { ProductModel } from '../models/product.model';
-import { catchError, firstValueFrom, of, retry } from 'rxjs';
+import { firstValueFrom, retry } from 'rxjs';
 import { Constants, CONSTANTS_PROVIDER } from '../services/constants.service';
+import { Update } from '@ngrx/entity';
 
 @Injectable({
   providedIn: 'root',
@@ -20,61 +21,31 @@ export class ProductsPromiseLoaderService {
   }
 
   getProducts(): Promise<ProductModel[]> {
-    const request$ = this.httpClient.get<ProductModel[]>(this.baseProductsApiUrl).pipe(
-      retry(this.attempts),
-      catchError((e) => {
-        console.log('Error loading products: ', e);
-        return of([]);
-      }),
-    );
+    const request$ = this.httpClient.get<ProductModel[]>(this.baseProductsApiUrl).pipe(retry(this.attempts));
     return firstValueFrom(request$);
   }
 
-  getProductById(productId: NonNullable<ProductModel['id']>): Promise<ProductModel | null> {
-    const request$ = this.httpClient.get<ProductModel>(`${this.baseProductsApiUrl}/${productId}`).pipe(
-      retry(this.attempts),
-      catchError((e) => {
-        console.log('Error loading the product: ', e);
-        return of(null);
-      }),
-    );
+  getProductById(productId: NonNullable<ProductModel['id']>): Promise<ProductModel> {
+    const request$ = this.httpClient
+      .get<ProductModel>(`${this.baseProductsApiUrl}/${productId}`)
+      .pipe(retry(this.attempts));
     return firstValueFrom(request$);
   }
 
-  saveProduct(updates: Partial<ProductModel>): Promise<ProductModel | null> {
-    if (updates.id === 0) {
-      return this.createProduct(updates as ProductModel);
-    }
-
-    const request$ = this.httpClient.put<ProductModel>(`${this.baseProductsApiUrl}/${updates.id}`, updates).pipe(
-      retry(this.attempts),
-      catchError((e) => {
-        console.log('Error saving the product: ', e);
-        return of(null);
-      }),
-    );
+  saveProduct(update: Update<ProductModel>): Promise<ProductModel> {
+    const request$ = this.httpClient
+      .put<ProductModel>(`${this.baseProductsApiUrl}/${update.id}`, update.changes)
+      .pipe(retry(this.attempts));
     return firstValueFrom(request$);
   }
 
-  createProduct(product: ProductModel): Promise<ProductModel | null> {
-    const request$ = this.httpClient.post<ProductModel>(this.baseProductsApiUrl, product).pipe(
-      retry(this.attempts),
-      catchError((e) => {
-        console.log('Error creating the product: ', e);
-        return of(null);
-      }),
-    );
+  createProduct(product: ProductModel): Promise<ProductModel> {
+    const request$ = this.httpClient.post<ProductModel>(this.baseProductsApiUrl, product).pipe(retry(this.attempts));
     return firstValueFrom(request$);
   }
 
-  deleteProduct(product: ProductModel): Promise<unknown> {
-    const request$ = this.httpClient.delete(`${this.baseProductsApiUrl}/${product.id}`).pipe(
-      retry(this.attempts),
-      catchError((e) => {
-        console.log('Error deleting the product: ', e);
-        return of(null);
-      }),
-    );
+  deleteProduct(productId: number): Promise<unknown> {
+    const request$ = this.httpClient.delete(`${this.baseProductsApiUrl}/${productId}`).pipe(retry(this.attempts));
     return firstValueFrom(request$);
   }
 }
