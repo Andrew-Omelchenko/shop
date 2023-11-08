@@ -45,9 +45,13 @@ import { httpInterceptorProviders } from './core/interceptors/const';
       },
     },
     { provide: GeneratedString, useFactory: GeneratorFactory(6), deps: [GeneratorService] },
+    // наверное можно так, но обычно используют эту функцию в безмодульном приложении
+    // у нас тут есть модуль и можно подключить модуль HttpClientModule
     provideHttpClient(withInterceptorsFromDi()),
     httpInterceptorProviders,
   ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
+// у меня почнму-то записано, что тут должно быть 6 и 7 задание
+// но 7 задания я не встретил.

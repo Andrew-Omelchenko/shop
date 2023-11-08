@@ -10,6 +10,8 @@ import { Constants, CONSTANTS_PROVIDER } from '../services/constants.service';
   providedIn: 'root',
 })
 export class CartObservableLoaderService {
+  // ок, но если вы хотите использовать константы, то у нас уже есть сервис констант ниже
+  // можно туда что-то добавить
   private readonly attempts = DEFAULT_ATTEMPTS_NUMBER;
   private baseCartApiUrl!: string;
 
